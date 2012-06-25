@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        
+        <title>Connexions across the world</title>
+        <link rel="stylesheet" href="css/css1.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="css/css2.css" type="text/css" media="print">
+
+        <script src="js/raphael.js" type="text/javascript"></script>
+        <script src="js/world.js" type="text/javascript"></script>
+
+        <script type="text/javascript">        
+            window.onload = function () {
+				var current = null;
+				var map = {};
+				var m = {};				
+				var attr = {
+					fill: "#272727",
+					stroke: "#272727",
+					"stroke-width": 0,
+					"stroke-linejoin": "round"
+				};				
+				var map = {};
+				var R = Raphael("holder_1000");
+				render_map(R,map,attr);		
+				for (var state in map) {							        
+    	            //map[state].color = Raphael.getColor();
+
+    	            map[state].color = "#white" ;
+	                (function (st, state) {
+						st[0].style.cursor = "pointer";
+						st[0].onmouseover = function () {
+							current && map[current].animate({fill: "#272727", stroke: "#272727"}, 300);
+							st.animate({fill: "#272727", stroke: "#272727"}, 300);
+							R.safari();
+							current = state;
+						};
+						st[0].onmouseout = function () {
+							st.animate({fill: "#272727", stroke: "#272727"}, 300);
+							R.safari();
+						};
+						
+						/*st[0].onclick = function () {
+							alert(state);
+						}; */
+					})(map[state], state);
+				}; // end for
+				
+				
+
+				function lon2x(lon) {
+					var xfactor = 2.752;
+					var xoffset = 473.75;
+					var x = (lon * xfactor) + xoffset;
+					return x;
+				}
+				function lat2y(lat) {
+					var yfactor = -2.753;
+					var yoffset = 231;
+					var y = (lat * yfactor) + yoffset;
+					return y;
+				}
+
+				var city_attr = {
+					fill: "#625434",
+					stroke: "white",
+					"stroke-width": 2,
+					opacity: 1
+				};
+				function plot(lat,lon,size) {
+					size = size * .5 + 4;
+					return R.circle(lon2x(lon), lat2y(lat), 4.7).attr(city_attr);
+				}
+
+
+				var cities = {};
+
+				cities.af = plot(33.93911,67.709953,20);
+				cities.Azerbaijan = plot(40.143105,47.576927,2);
+				cities.Bolivia = plot(-16.290154,-63.588653,1);
+				cities.Brazil = plot(-14.235004,-51.92528,3);
+				cities.Cameroon = plot(7.369722,12.354722,1);
+				cities.Colombia = plot(4.570868,-74.297333,1);
+				cities.DRC = plot(-4.038333,21.758664,2);
+				cities.DR = plot(18.735693,-70.162651,1);
+				cities.Ecuador = plot(-1.831239,-78.183406,1);
+				cities.Georgia = plot(42.315407,43.356892,1);
+				cities.Guatemala = plot(15.783471,-90.230759,1);
+				cities.Indonesia = plot(-0.789275,113.921327,3);
+				cities.Iraq = plot(33.223191,43.679291,25);
+				cities.Ivory_Coast = plot(7.539989,-5.54708,1);
+				cities.Kazakhstan = plot(48.019573,66.923684,1);
+				cities.Kenya = plot(-0.023559,37.906193,1);
+				cities.Kyrgyzstan = plot(41.20438,74.766098,1);
+				cities.Libya = plot(26.3351,17.228331,7);
+				/*cities.Mexico = plot(23.634501,-102.552784,24);
+				cities.Nepal = plot(28.394857,84.124008,4);
+				cities.Nigeria = plot(9.081999,8.675277,3);
+				cities.Pakistan = plot(30.375321,69.345116,17);
+				cities.Philippines = plot(12.879721,121.774017,35);
+				cities.Russia = plot(61.52401,105.318756,5);
+				cities.Somalia = plot(5.152149,46.199616,11);
+				cities.Sri_Lanka = plot(7.873054,80.771797,6);
+				cities.Syria = plot(34.802075,38.996815,1);
+				cities.Tunisia = plot(33.886917,9.537499,1);
+				cities.Turkmenistan = plot(38.969719,59.556278,1);
+				cities.Uganda = plot(1.373333,32.290275,1);
+				cities.Venezuela = plot(6.42375,-66.58973,1);
+				cities.Yemen = plot(15.552727,48.516388,5);
+				cities.Zimbabwe = plot(-19.015438,29.154857,2); */
+
+				getXY = function (lat, lon) {
+                    return {
+                        cx: lon * 2.6938 + 474.4,
+                        cy: lat * -2.6938 + 230.066
+                    };
+
+                };
+
+
+				try {
+
+                    navigator.geolocation && navigator.geolocation.getCurrentPosition(function (pos) {
+
+                        R.circle().attr({fill: "white", stroke: "black", r: 8}).attr(getXY(pos.coords.latitude, pos.coords.longitude));
+						document.form_cnx.address.value=pos.coords.latitude + " ," + pos.coords.longitude;
+
+                    });
+
+                } catch (e) {}
+
+
+				var current_city = null;
+				var city_box = null;
+				for (var city in cities) {							        
+    	            //map[state].color = Raphael.getColor();
+
+    	            map[state].color = "green";
+	                (function (st, city) {
+						st[0].style.cursor = "pointer";
+						st[0].onmouseover = function () {
+							current_city && cities[current_city].animate({fill: "#615333", opacity: 1}, 300);
+							st.animate({fill: "#cdbf9f", opacity: 1}, 300);
+							R.safari();
+							current_city = city;
+						};
+						st[0].onmouseout = function () {
+							st.animate({fill: "#615333", opacity: 1}, 300);
+							R.safari();
+						};
+						
+						st[0].onclick = function () {
+							if (t = document.getElementById(city_box)) { t.style.display = "none"; }
+							if (t = document.getElementById(city)) { t.style.display = "block"; }
+							city_box = city;
+						};
+
+
+						if (t = document.getElementById(city)) {
+								t.style.left = cities[city].attr('cx') + 'px';
+								t.style.top = cities[city].attr('cy') -20 + 'px';
+						}
+
+					})(cities[city], city);
+				}; // end for
+
+
+			};
+        </script>
+    </head>
+    <body>
+        <div id="holder_1000" style="position:relative;">
+			<div id="af" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Azerbaijan" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Bolivia" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Brazil" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Cameroon" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Colombia" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="DRC" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="DR" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Ecuador" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Georgia" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Guatemala" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Indonesia" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Iraq" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Ivory_Coast" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Kazakhstan" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Kenya" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Kyrgyzstan" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Libya" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Mexico" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Nepal" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Nigeria" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Pakistan" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Philippines" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Somalia" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Sri_Lanka" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Syria" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Tunisia" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Turkmenistan" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Uganda" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Venezuela" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Yemen" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+			<div id="Zimbabwe" class="city_hover"><span class="c_label"><img src="img/face1.jpg" height="100" width="100"></img><strong><strong>Annie</strong></strong><br />Some story here. Some details."Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></div>
+        </div>
+       
+       <p id="text">
+       
+       Lorem ipsum dolor sit amet, consectetur
+        
+       </p>
+       
+       <form name="form_cnx" id="ContactForm" action="">
+                            
+                            <p>
+                                <label>Address</label>
+                                    <input id="address" name="address" maxlength="120" type="text" autocomplete="off"/>
+                            </p>
+                            <p> We'r happy to have you with us, and this support will go a long way in providing free and quality educational content around the world.
+                            <p> <input id="send" type="button" value="Send"/> </p>
+                            <input id="newcontact" name="newcontact" type="hidden" value="1"></input>
+                        </form>
+       
+</body>
+</html>

@@ -1,0 +1,70 @@
+body {
+    background: #6a6a6a;
+    color: #fff;
+    font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+}
+
+#text {
+	
+font-family: Garamond, serif;
+line-height: 1em;
+color: #white;
+font-weight:bold;
+font-size: 51px;
+text-shadow: -4px -1px 17px rgba(204, 197, 162, 1);
+
+}
+	
+	
+
+#holder_570 {
+    height: 250px;
+    width: 570px;
+    margin: 2em auto;
+	background: #6a6a6a;
+}
+#holder_1000 {
+    margin: 0 auto;
+    height: 400px;
+    width: 1000px;
+	background: #6a6a6a;
+}
+a {
+	color: #666;
+}
+p { text-align: center; }
+
+.city_hover
+{
+	position: absolute;
+	display: none;
+	padding-left: 10px;
+	width: auto;
+	z-index: 2;
+	background-image: url(../img/arrow.gif);
+	background-repeat: no-repeat;
+	background-position: 0 10px;
+}
+
+.city_hover .c_label
+{
+	display: block;
+	padding: 10px;
+	color: #000;
+	background-color: #aba088;
+	/* IE fix */
+	/*overflow: hidden; */
+	-webkit-box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);
+-moz-box-shadow:    7px 7px 5px rgba(50, 50, 50, 0.75);
+box-shadow:         7px 7px 5px rgba(50, 50, 50, 0.75);
+-webkit-border-radius: 15px;
+border-radius: 15px;
+}
+.city_hover .c_label strong {
+	
+	
+	font-weight: normal;
+	font-family: Georgia, Times, serif;
+	font-size: 1.5em;
+	
+}

@@ -1,0 +1,129 @@
+/*-----------------------------------------------------------------------------------*/
+/*	box popup
+/*-----------------------------------------------------------------------------------*/
+
+#subscribe {
+	font: 12px/1.2 Arial,Helvetica,san-serif;
+}
+
+#subscribe a,
+#subscribe a:hover,
+#subscribe a:visited {
+	text-decoration:none; 
+}
+
+.box-title {
+	font-family:"Arial Narrow";
+    color: #460c05;
+    font-size: 25px;
+    margin-top: -20px;
+    letter-spacing:3.2px;
+    margin-bottom:-40px;
+    font-weight: 400; 
+    margin: 10px 0;
+    text-align: center;
+    text-shadow:3px 3px 5px #d9a8a3;
+}
+
+.box-tagline {
+    color: #6e423d;
+    font-size: 17px;
+    font-weight:200px;
+    letter-spacing:1px;
+    margin: 0;
+    text-align: center;
+    text-shadow:0px 0px 1px #dcc9c7;
+}
+
+#subs-container {
+	padding: 35px 0 30px 0;
+	position: relative;
+}
+
+.box-side {
+	width: 170px;
+	text-align: center;
+}
+
+.box-side.left {
+	margin-top:-30px;
+    padding: 0 30px 0 15px;
+	border-right: 2px solid #ecedf3;
+	-webkit-box-shadow: 3px 0px 0px rgba(48, 54, 103, 0.25);
+-moz-box-shadow:    3px 0px 0px rgba(48, 54, 103, 0.25);
+box-shadow:         3px 0px 0px rgba(48, 54, 103, 0.25);
+}
+
+.box-side.right {
+	float: right;
+    margin-top: -223px;
+	margin-right: 10px;
+}
+
+#one {
+	width: 220px;
+	height: 250px;
+	/* padding: 6px 0 0 0; */
+	margin-left:-25px;
+	border-radius:5px;
+
+}
+
+#support {
+	margin-top:-10px;
+	color:#4d2f2c;
+	text-align:left;
+	margin-left: -20px;
+	margin-right:-20px;
+	font-family:"Arial Rounded MT Bold";
+	font-size:16px;
+	font-weight:100px;
+
+
+
+}
+
+#lookforward {
+	text-align:left;
+	color: #2b1b19;
+	margin-top:20px;
+	margin-left: -20px;
+	margin-right:-20px;
+	font-family:"Arial Rounded MT Bold";
+	font-size:20px;
+	font-weight:200px;
+	margin-bottom:-20px;
+
+
+}
+
+
+.box-side h4,
+.box-side h4 a {
+	font-size: 14px;
+	line-height: 14px;
+	color: #f26535;
+	font-weight: bold;
+}
+
+.box-side h4 { margin: 20px 0 10px 0; }
+
+.box-side h5 {
+	font-size: 11px;
+	color: #5e6066;
+	line-height: 18px;
+	margin: 0 0 20px 0;
+}
+
+
+
+.box-side h4 a:hover {
+	color: #f26535;
+}
+
+a:link, a:visited {
+border:none;
+}
+.demo {
+display:none;
+}
